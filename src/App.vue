@@ -20,10 +20,17 @@ h2 {
   font-weight: normal;
 }
 .container {
-  max-width: 900px;
+  max-width: 800px;
   margin: auto;
   float: none;
   padding: 16px 24px;
+  transition: 1s all;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  box-sizing: border-box;
+  transition: 1s ease-in-out;
 }
 .buy-button {
       padding: 8px 24px;

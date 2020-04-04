@@ -42,8 +42,7 @@ export default {
       }
   },
   mounted: function() {
-    this.SAvailable = this.$store.state.available
-    console.log(this.SAvailable)
+    
   },
   methods: {
     search: function() {
@@ -54,6 +53,19 @@ export default {
        alert("Harap Mengisi Data")
      }
      else {
+        var unavailables = this.$store.state.unavailable
+        this.SAvailable = this.$store.state.available
+        for (var i=0;i<unavailables.length;i++) {
+          if (this.name == unavailables[i]) {
+            var dotchecker = this.name.split(".")
+            dotchecker = "." + dotchecker[1]
+            for (var y=0;y<this.SAvailable.length;y++) {
+              if (this.SAvailable[y].dot  == dotchecker) { 
+                  this.SAvailable.splice(y, 1);
+              }
+            }
+          }
+        }
         var splitter = this.name.split(".")
         var split = "." + splitter[1]
         this.namesplit = splitter[0]
@@ -66,34 +78,36 @@ export default {
           this.recom = true
           return
         }
-       for (var i=0;i<this.SAvailable.length;i++) {
-         if (split == this.SAvailable[i].dot) {
-           this.available = true
-           return
-         }
-       }
-       if (this.available == false) {
-          this.alert = true
-          this.recom = true
-       }
+        for ( i=0;i<this.SAvailable.length;i++) {
+          if (split == this.SAvailable[i].dot) {
+            this.available = true
+            return
+          }
+        }
+        if (this.available == false) {
+            this.alert = true
+            this.recom = true
+        }
      }
     },
     buy: function(id) {
-      if (id) {
+      if (id || id == 0) {
         this.$store.state.available.forEach(function (data) {
           if (id == data.id ) {
             this.name = this.namesplit + data.dot 
-            this.recom = false
+            this.recom = false  
             this.alert= false
             this.available = true
           }
         }.bind(this));
       }
       else {
+        this.$store.state.unavailable.push(this.name)
         this.available = false
         this.name = null
+        this.recom = false
+        
         alert("Terimakasih, Pembelian anda akan Diproses")
-
       }
     }
   }
@@ -102,6 +116,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/css/_variables.scss";
+
 h2 {
   border-top: 2px dashed $grey;
   padding-top: 16px;
@@ -124,6 +139,7 @@ h2 {
   }
 }
 .content-container {
+  flex: 1;
   padding: 32px;
   background-color: #fff;
   border-radius: 4px;
