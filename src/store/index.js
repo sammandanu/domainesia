@@ -22,7 +22,6 @@ export default new Vuex.Store({
         price:100000
       }
     ],
-    unavailable:[]
   },
   mutations: {},
   actions: {},

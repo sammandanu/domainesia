@@ -42,7 +42,7 @@ export default {
       }
   },
   mounted: function() {
-    
+    this.SAvailable = this.$store.state.available
   },
   methods: {
     search: function() {
@@ -53,19 +53,7 @@ export default {
        alert("Harap Mengisi Data")
      }
      else {
-        var unavailables = this.$store.state.unavailable
-        this.SAvailable = this.$store.state.available
-        for (var i=0;i<unavailables.length;i++) {
-          if (this.name == unavailables[i]) {
-            var dotchecker = this.name.split(".")
-            dotchecker = "." + dotchecker[1]
-            for (var y=0;y<this.SAvailable.length;y++) {
-              if (this.SAvailable[y].dot  == dotchecker) { 
-                  this.SAvailable.splice(y, 1);
-              }
-            }
-          }
-        }
+        
         var splitter = this.name.split(".")
         var split = "." + splitter[1]
         this.namesplit = splitter[0]
@@ -78,7 +66,7 @@ export default {
           this.recom = true
           return
         }
-        for ( i=0;i<this.SAvailable.length;i++) {
+        for (var i=0;i<this.SAvailable.length;i++) {
           if (split == this.SAvailable[i].dot) {
             this.available = true
             return
@@ -92,7 +80,7 @@ export default {
     },
     buy: function(id) {
       if (id || id == 0) {
-        this.$store.state.available.forEach(function (data) {
+        this.SAvailable.forEach(function (data) {
           if (id == data.id ) {
             this.name = this.namesplit + data.dot 
             this.recom = false  
@@ -102,7 +90,6 @@ export default {
         }.bind(this));
       }
       else {
-        this.$store.state.unavailable.push(this.name)
         this.available = false
         this.name = null
         this.recom = false
