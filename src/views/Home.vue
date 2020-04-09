@@ -63,8 +63,6 @@ export default {
           return
         }
         
-        console.log("availabe", this.SAvailable)
-        console.log("unavailable", this.$store.state.unavailable)
         if (this.$store.state.unavailable) {
           var unavailable = JSON.parse(JSON.stringify(this.$store.state.unavailable))
             for (var i=0;i<unavailable.length;i++) {
