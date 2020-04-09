@@ -9,19 +9,20 @@ export default new Vuex.Store({
       {
         id:0,
         dot:".space",
-        price:100000
+        price:123000
       },
       {
         id:1,
         dot:".net",
-        price:100000
+        price:124000
       },
       {
         id:2,
         dot:".org",
-        price:100000
+        price:125000
       }
     ],
+    unavailable:[]
   },
   mutations: {},
   actions: {},

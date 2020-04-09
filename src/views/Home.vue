@@ -42,10 +42,11 @@ export default {
       }
   },
   mounted: function() {
-    this.SAvailable = this.$store.state.available
+    
   },
   methods: {
     search: function() {
+      this.SAvailable = JSON.parse(JSON.stringify(this.$store.state.available)) 
       this.recom = false
       this.alert = false
       this.available = false
@@ -61,12 +62,29 @@ export default {
           alert("Harap Mengisi nama Domain")
           return
         }
+        
+        console.log("availabe", this.SAvailable)
+        console.log("unavailable", this.$store.state.unavailable)
+        if (this.$store.state.unavailable) {
+          var unavailable = JSON.parse(JSON.stringify(this.$store.state.unavailable))
+            for (var i=0;i<unavailable.length;i++) {
+                for (var y=0;y<this.SAvailable.length;y++) {
+                  if (unavailable[i] == (this.namesplit + this.SAvailable[y].dot)) {
+                    this.SAvailable.splice(y, 1);
+                  }
+                }
+            }
+        }
+        if (this.SAvailable.length == 0) {
+          alert("Domain dengan nama tersebut tidak tersedia")
+          return
+        }
         if (splitter.length<2) {
           this.namesplit = this.name
           this.recom = true
           return
         }
-        for (var i=0;i<this.SAvailable.length;i++) {
+        for ( i=0;i<this.SAvailable.length;i++) {
           if (split == this.SAvailable[i].dot) {
             this.available = true
             return
@@ -90,10 +108,10 @@ export default {
         }.bind(this));
       }
       else {
+        this.$store.state.unavailable.push(this.name)
         this.available = false
         this.name = null
         this.recom = false
-        
         alert("Terimakasih, Pembelian anda akan Diproses")
       }
     }
